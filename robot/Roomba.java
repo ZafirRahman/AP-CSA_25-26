@@ -18,33 +18,63 @@ public class Roomba implements Directions {
 	// You will need to add many variables!!
 
 	public int cleanRoom(String worldName, int startX, int startY) {
-		World.readWorld(worldName);
-		World.setVisible(true);
-		World.setDelay(20);
+    World.readWorld(worldName);
+    World.setVisible(true);
+    World.setDelay(1);
 
-		// A new Robot should be constructed and assigned to the global (instance) variable named roomba
-		this.roomba = new Robot(startX, startY, North, 100);
+    // A new Robot should be constructed and assigned to the global (instance) variable named roomba
+    this.roomba = new Robot(startX, startY, East, 0);
 
-		// Use the instance variable 'roomba' for all calls
-		for (int i = 0; i < 4; i++) {
-			while (roomba.frontIsClear()) {
+    // Initialize a variable to count the beepers
+	int totalSquaresMoved = 0;
+	int totalBeepers = 0;
+	int biggestPile = 0;
+	int CurrentPile = 0;
+    // Use the instance variable 'roomba' for all calls
+	boolean moreToClean = true;
+    while (moreToClean) {
+		CurrentPile = 1;
+        while (roomba.frontIsClear())
+		{
 				roomba.move();
-			} // This was the missing brace for the while loop
+				totalSquaresMoved++;
+			}
+		while (roomba.nextToABeeper()){
+			roomba.pickBeeper();
+			CurrentPile++;
+			totalBeepers++;
+		}
+		if (CurrentPile > biggestPile){
+			biggestPile = CurrentPile;
+		}
 
-			// Turn right
+        if (roomba.facingEast()){
+            roomba.turnLeft();
+			if (!roomba.frontIsClear()){
+				roomba.turnOff();
+				break;
+			}
+            roomba.move();
+			totalSquaresMoved++;
+            roomba.turnLeft();
+        }
+		else{
 			roomba.turnLeft();
 			roomba.turnLeft();
 			roomba.turnLeft();
 			roomba.move();
+			totalSquaresMoved++;
 			roomba.turnLeft();
 			roomba.turnLeft();
 			roomba.turnLeft();
-}
 		}
-
-		int totalBeepers = 0; // Initialize a variable to hold the final count
-		// ... cleaning logic to pick up beepers and increment `totalBeepers` ...
-		
-		return totalBeepers; // Add the return statement
 	}
+	
+    // ... cleaning logic to pick up beepers and increment `totalBeepers` ...
+    // Add the return statement here to return the final count
+    System.out.println("The largest pile is " + biggestPile + "beepers.");
+	System.out.println("The area of the room is " + totalSquaresMoved);
+	System.out.println("The total number of beepers are" + totalBeepers);
+	return biggestPile;
+}
 }
