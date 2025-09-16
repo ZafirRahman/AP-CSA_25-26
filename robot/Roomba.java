@@ -21,8 +21,8 @@ public class Roomba implements Directions {
         World.setDelay(1);
 
         this.roomba = new Robot(startX, startY, East, 0);
-
-        int totalSquaresMoved = 1;
+        // Variables
+        int totalSquaresMoved = 0;
         int totalBeepers = 0;
         int biggestPile = 0;
         int biggestPileStreet = 0;
@@ -33,10 +33,9 @@ public class Roomba implements Directions {
         boolean moreToClean = true;
         while (moreToClean) {
 
-            // reset for this square
             CurrentPile = 0;
 
-            // pick all beepers on current square
+            // pick all beepers on current spot
             while (roomba.nextToABeeper()) {
                 roomba.pickBeeper();
                 CurrentPile++;
@@ -44,7 +43,7 @@ public class Roomba implements Directions {
                 System.out.println("Picked 1 beeper at (" + roomba.street() + ", " + roomba.avenue() + ")");
             }
 
-            // update pile stats once per square
+            // update pile stats once per spot
             if (CurrentPile > 0) {
                 pileCount++;
                 if (CurrentPile > biggestPile) {
@@ -59,7 +58,7 @@ public class Roomba implements Directions {
                 roomba.move();
                 totalSquaresMoved++;
             } else {
-                // reached end of row
+                //  U-turn for facing east
                 if (roomba.facingEast()) {
                     roomba.turnLeft();
                     if (!roomba.frontIsClear()) {
@@ -69,7 +68,7 @@ public class Roomba implements Directions {
                         totalSquaresMoved++;
                         roomba.turnLeft();
                     }
-                } else { // facing west
+                } else { // U-turn for facing west or ending the loop
                     roomba.turnLeft();
                     roomba.turnLeft();
                     roomba.turnLeft();
@@ -85,9 +84,10 @@ public class Roomba implements Directions {
                 }
             }
         }
-
+        int area = totalSquaresMoved + 1;
+        // All print statements with the data collected
         System.out.println("The largest pile is " + biggestPile + " beepers at (" + biggestPileStreet + ", " + biggestPileAvenue + ").");
-        System.out.println("The area of the room is " + totalSquaresMoved);
+        System.out.println("The area of the room is " + area);
         System.out.println("The total number of beepers are " + totalBeepers);
         System.out.println("The number of piles is " + pileCount);
         if (pileCount > 0) {
