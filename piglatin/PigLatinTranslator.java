@@ -15,18 +15,14 @@ public class PigLatinTranslator {
     public static String translate(String input) {
         System.out.println("  -> translate('" + input + "')");
 
+        String[] words = input.split(" ");
         String result = "";
-        String firstletter = input.substring(0,1);
-        if(firstletter.equalsIgnoreCase("a") || firstletter.equalsIgnoreCase("e") || firstletter.equalsIgnoreCase("i") || firstletter.equalsIgnoreCase("o") || firstletter.equalsIgnoreCase("u")){
-        result = input + "ay";
-        }else{
-            String currentletter = "";
-            int amountofconsts = 0;
-            while(!currentletter.equalsIgnoreCase("a") || !currentletter.equalsIgnoreCase("e") || !currentletter.equalsIgnoreCase("i") || !currentletter.equalsIgnoreCase("o") || currentletter.equalsIgnoreCase("u")){
-            amountofconsts++;
-            currentletter = input.substring(amountofconsts-1, amountofconsts)
+        
+        for (int i = 0; i < words.length; i++) {
+            result += translateWord(words[i]);
+            if (i < words.length - 1) {
+                result += " ";
             }
-            i
         }
 
         // TODO: translate a string input, store in result.
@@ -42,11 +38,46 @@ public class PigLatinTranslator {
         System.out.println("  -> translateWord('" + input + "')");
 
         String result = "";
+        
+        // Store if first letter was capital
+        boolean[] capitals = new boolean[input.length()];
+        for(int i = 0;  i < input.length(); i++){
+            capitals[i] = Character.isUpperCase(input.charAt(i));
+        }
+        // Convert to lowercase for processing
+        input = input.toLowerCase();
+        
+        String firstletter = input.substring(0,1);
+        if(firstletter.equalsIgnoreCase("a") || firstletter.equalsIgnoreCase("e") || firstletter.equalsIgnoreCase("i") || firstletter.equalsIgnoreCase("o") || firstletter.equalsIgnoreCase("u")){
+            result = input + "ay";
+        }else{
+            int vowelPosition = 0;
+            for(int i = 0; i < input.length(); i++){
+                String letter = input.substring(i, i+1);
+                if(letter.equalsIgnoreCase("a") || letter.equalsIgnoreCase("e") || 
+                letter.equalsIgnoreCase("i") || letter.equalsIgnoreCase("o") || 
+                letter.equalsIgnoreCase("u")) {
+                    vowelPosition = i;
+                    break;
+                }
+            }
+            String consonants = input.substring(0, vowelPosition);
+            String rest = input.substring(vowelPosition);
+            result = rest + consonants + "ay";
+        }
+        
+        // Restore capital to first letter if original was capitalized
+        StringBuilder finalResult = new StringBuilder(result);
+        for(int i = 0; i < capitals.length && i < finalResult.length(); i++){
+            if(capitals[i]){
+                finalResult.setCharAt(i, Character.toUpperCase(finalResult.charAt(i)));
+            }
+        }
+        result = finalResult.toString();
 
         // TODO: Replace this code to correctly translate a single word.
         // Start here first!
         // This is the first place to work.
-        result = input; // delete this line
 
         return result;
     }
