@@ -26,22 +26,35 @@ public class App {
         int score = TestSuite.run();
 
         // Focus on TestSuite until you get a score of 5 or higher.
+        
         if (score > 4)
         {
             // Starter book
             Book input = new Book();
-
+            Book input2 = new Book();
             // Start with a "test" book based on a string.
             // Get this to work, and all the tests to pass first.
             //input.readFromString("TestBook", "Dog\nCat\nMouse");
 
-            // Example reading from a URL
-            input.readFromUrl("Moby Dick; Or, The Whale", "https://www.gutenberg.org/cache/epub/2701/pg2701.txt");
+            // Exiample reading from a URL
+            input.readFromUrl("The Strange Case of Dr. Jekyll and Mr. Hyde", "https://www.gutenberg.org/cache/epub/43/pg43.txt");
 
             input.printlines(0,2);
-            Book output = PigLatinTranslator.translate(input);
+            Book output = new Book();
+            String listString = String.join(", ", input.text);
+            output.readFromString(null, PigLatinTranslator.translate(listString));
             output.printlines(0,2);
-            output.writeToFile("test.txt");
+            output.writeToFile("JekyllPigLatin.txt");
+
+            input2.readFromUrl("Romeo and Juliet", "https://www.gutenberg.org/cache/epub/1513/pg1513.txt");
+
+            input2.printlines(0,2);
+            Book output2 = new Book();
+            String listString2 = String.join(", ", input2.text);
+            output2.readFromString(null, PigLatinTranslator.translate(listString2));
+            output2.printlines(0,2);
+            output2.writeToFile("R&J.txt");
+            
         }
     }
 }

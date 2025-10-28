@@ -43,6 +43,7 @@ public class PigLatinTranslator {
         
         String word = input.substring(0, lastLetterIndex + 1);
         String punctuation = input.substring(lastLetterIndex + 1);
+        System.out.println("");
         
         if (word.isEmpty()) {
             return input;
