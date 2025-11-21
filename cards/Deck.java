@@ -18,7 +18,7 @@ public class Deck {
         }
     }
 
-    public void shuffler(){
+    public void shuffleh(){
         Random ran = new Random();
 
         for(int i = cards.length - 1; i > 0; i--){
@@ -29,6 +29,14 @@ public class Deck {
         }
         currentCard = 0;
     }
+    public Card draw() {
+    if (currentCard < cards.length) {
+        Card card = cards[currentCard];
+        currentCard++;
+        return card;
+    }
+    return null; // Deck is empty
+}
     
 
 }
