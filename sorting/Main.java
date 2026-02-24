@@ -1,6 +1,9 @@
 package sorting;
-
+import java.util.Random;
 public class Main {
+    
+    static Random rand = new Random();
+    
     public static void main(String[] args)
     {
         // Task:
@@ -13,7 +16,7 @@ public class Main {
         //     of InsertionSort and Selection sort continue to work.
         //  4. Increase the loop count for TestSuite to get better performance results.
 
-        int[] testInput = randomArray(5);
+        int[] testInput = randomArray(800);
 
         // Increase the loop count to get better results once it works.
         // TestSuite.run(testInput, 10000);
@@ -22,8 +25,10 @@ public class Main {
 
     public static int[] randomArray(int length)
     {
-        // TODO: make this return an actual random array of the provided length.
-        int[] a = {10, 5, 3, 2};
+        int[] a = new int[length];
+        for(int i = 0; i < a.length; i++){
+            a[i] = rand.nextInt(10);
+        }
         return a;
     }
 
