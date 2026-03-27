@@ -11,6 +11,7 @@ public class TowerSolver {
     public void solve(TowerModel model)
     {
         this.model = model;
+        solve(model.getHeight(), 0, 2, 1);
         // Call the missing solve method (not this one)
     }
 
@@ -18,6 +19,14 @@ public class TowerSolver {
     // This new method will be recursive (call itself)
     //
     // [ solve method here]
-    //
-
+    public void solve(int n, int from, int to, int aux){
+        if(n <= 0){ 
+            return; 
+        }
+    solve(n-1, from, aux, to);
+    model.move(from, to);
+    solve(n-1, aux, to, from);
 }
+}
+
+
