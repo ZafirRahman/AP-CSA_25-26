@@ -47,6 +47,11 @@ public class TowerModel {
 
     // Move one disk from the source stack to the destination stack.
     public void move(int source, int destination){
+        int topDestination = towers[destination].peek(); // peek at top without popping
+        int topSource = towers[source].peek();
+        if (topDestination != 0 && topSource > topDestination) {
+            return;
+        }
         System.out.println("Move #" + ++moveCounter + " from " + source + " to " + destination);
         int disk = towers[source].pop();
         towers[destination].push(disk);
